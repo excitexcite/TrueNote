@@ -76,6 +76,7 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/clrIcons"
                 android:textSize="@dimen/_10ssp"
+
                 app:layout_constraintEnd_toEndOf="@id/inputNoteTitle"
                 app:layout_constraintStart_toStartOf="@id/inputNoteTitle"
                 app:layout_constraintBottom_toBottomOf="@id/inputNoteTitle"
