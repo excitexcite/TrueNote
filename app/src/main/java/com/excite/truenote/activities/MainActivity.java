@@ -1,4 +1,4 @@
-package com.excite.truenote;
+package com.excite.truenote.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.excite.truenote.R;
+import com.excite.truenote.activities.CreateNoteActivity;
 
 public class MainActivity extends AppCompatActivity {
 
