@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/addWebLink"
+        android:icon="@drawable/ic_web_link"
+        android:title="Add URL"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/addImage"
         android:icon="@drawable/ic_image"
         android:title="Add image"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/addWebLink"
-        android:icon="@drawable/ic_web_link"
-        android:title="Add Url"
+        android:id="@+id/deleteNote"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete"
         app:showAsAction="ifRoom" />
 </menu>

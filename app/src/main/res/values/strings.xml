@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">TrueNote</string>
     <string name="my_notes">My Notes</string>
     <string name="search_note">Search note</string>
@@ -10,5 +10,7 @@
     <string name="add_url">Add URL</string>
     <string name="enter_url">Enter URL</string>
     <string name="add">ADD</string>
-    <string name="cancel_dialog">CANCEL</string>
+    <string name="cancel_dialog" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="delete_note">DELETE NOTE</string>
+    <string name="are_you_sure_you_want_to_delete_note">Are you sure you want to delete note?</string>
 </resources>

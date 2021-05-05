@@ -58,6 +58,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private String selectedImagePath;
 
     private AlertDialog dialogAddURL;
+    private AlertDialog dialogDeleteNote;
 
     private Note alreadyAvailableNote;
 
@@ -177,7 +178,10 @@ public class CreateNoteActivity extends AppCompatActivity {
                 showAddURLDialog();
                 break;
             }
+            case R.id.deleteNote: {
 
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -355,6 +359,25 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         dialogAddURL.show();
 
+    }
+
+    private void showDeleteDialog() {
+        if (dialogDeleteNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_url,
+                    (ViewGroup) findViewById(R.id.layoutAddUrlContainer)
+            );
+            builder.setView(view);
+
+            dialogAddURL = builder.create();
+            if (dialogAddURL.getWindow() != null) {
+                dialogAddURL.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+
+            final EditText inputURL = view.findViewById(R.id.inputURL);
+            inputURL.requestFocus();
+        }
     }
 
 }
