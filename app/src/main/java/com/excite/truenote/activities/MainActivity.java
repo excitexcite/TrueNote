@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         notesRecyclerView.setAdapter(mNotesAdapter);
 
         // onCreate() срабатывает при запуске приложения, а при запуске приложения необходимо отобразить все доступные заметки
-        getNotes(REQUEST_CODE_SHOW_NOTES);
+        // false - так как в данном случае не одна заметка не должна быть удалена
+        getNotes(REQUEST_CODE_SHOW_NOTES, false);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
     }
 
-    private void getNotes(final int requestCode) {
+    private void getNotes(final int requestCode, final boolean isNoteDeleted) {
 
         class GetNoteTask extends AsyncTask<Void, Void, List<Note>> {
 
@@ -102,8 +103,16 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                     // в случае редактирования заметки вначале эта заметка удаляется, а затем в её же место
                     // вставляется отредактированная (эта же) заметка из БД
                     mNoteList.remove(noteClickedPosition);
-                    mNoteList.add(noteClickedPosition, notes.get(noteClickedPosition));
-                    mNotesAdapter.notifyItemChanged(noteClickedPosition);
+
+                    // если после удаления и попытки вставить новую заметку выяснилось, что она удалена, то ничего не вставляем
+                    // и просто обновляем экран
+                    if (isNoteDeleted) {
+                        mNotesAdapter.notifyItemRemoved(noteClickedPosition);
+                    } else { // иначе вставляем отредактированную заметку
+                        mNoteList.add(noteClickedPosition, notes.get(noteClickedPosition));
+                        mNotesAdapter.notifyItemChanged(noteClickedPosition);
+                    }
+
                 }
             }
         }
@@ -119,11 +128,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
             // в случае возврата результата на экране уже отображены заметки, потому нужно добавить в перечню только одну заметку
-            getNotes(REQUEST_CODE_ADD_NOTE);
+            getNotes(REQUEST_CODE_ADD_NOTE, false);
         } else if (requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK) {
             if (data != null) {
                 // в случаее кода запроса на изменение заметки, нужно заменить лишь одну заметку
-                getNotes(REQUEST_CODE_UPDATE_NOTE);
+                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra(CreateNoteActivity.NOTE_DELETE_KEY, false));
             }
         }
     }
