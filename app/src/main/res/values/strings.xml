@@ -13,4 +13,6 @@
     <string name="cancel_dialog" tools:ignore="ButtonCase">CANCEL</string>
     <string name="delete_note">DELETE NOTE</string>
     <string name="are_you_sure_you_want_to_delete_note">Are you sure you want to delete note?</string>
+    <string name="add_category">Add category</string>
+    <string name="write_category_name_here">Write category name here</string>
 </resources>

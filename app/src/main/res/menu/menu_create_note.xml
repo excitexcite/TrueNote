@@ -6,15 +6,32 @@
         android:id="@+id/addWebLink"
         android:icon="@drawable/ic_web_link"
         android:title="Add URL"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/addImage"
         android:icon="@drawable/ic_image"
         android:title="Add image"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/saveNote"
+        android:icon="@drawable/ic_save"
+        android:title="Save note"
+        app:showAsAction="always" />
     <item
         android:id="@+id/deleteNote"
         android:icon="@drawable/ic_delete"
-        android:title="Delete"
+        android:title="Delete note"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/addCategory"
+        android:title="Add category"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/referToCategory"
+        android:title="Refer to category"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        app:showAsAction="never" />
 </menu>

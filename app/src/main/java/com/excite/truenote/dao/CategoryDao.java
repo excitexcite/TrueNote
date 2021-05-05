@@ -7,21 +7,24 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.excite.truenote.entities.Note;
+
+import com.excite.truenote.entities.Category;
 
 import java.util.List;
 
 @Dao
-public interface NoteDao {
+public interface CategoryDao {
 
     @Transaction
-    @Query("SELECT * FROM notes ORDER BY noteId DESC")
-    List<Note> getAllNotes();
+    @Query("SELECT * FROM categories ORDER BY categoryId DESC")
+    List<Category> getAllCategories();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNote(Note note);
+    void insertCategory(Category category);
 
     @Delete
-    void deleteNote(Note note);
+    void deleteCategory(Category category);
+
+
 
 }

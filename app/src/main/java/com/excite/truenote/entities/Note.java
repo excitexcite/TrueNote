@@ -11,16 +11,13 @@ import java.io.Serializable;
 public class Note implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int noteId;
 
     @ColumnInfo(name = "title")
     private String title;
 
     @ColumnInfo(name = "date_time")
-    private String dateTime;
-
-    @ColumnInfo(name = "subtitle")
-    private String subtitle;
+    private String lastChangeDateTime;
 
     @ColumnInfo(name = "note_text")
     private String noteText;
@@ -28,24 +25,21 @@ public class Note implements Serializable {
     @ColumnInfo(name = "image_path")
     private String imagePath;
 
-    @ColumnInfo(name = "color")
-    private String color;
-
     @ColumnInfo(name = "web_link")
     private String webLink;
 
     @NonNull
     @Override
     public String toString() {
-        return title + " : " + dateTime;
+        return title + " : " + lastChangeDateTime;
     }
 
     public int getId() {
-        return id;
+        return noteId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.noteId = id;
     }
 
     public String getTitle() {
@@ -56,20 +50,12 @@ public class Note implements Serializable {
         this.title = title;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getLastChangeDateTime() {
+        return lastChangeDateTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+    public void setLastChangeDateTime(String lastChangeDateTime) {
+        this.lastChangeDateTime = lastChangeDateTime;
     }
 
     public String getNoteText() {
@@ -86,14 +72,6 @@ public class Note implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getWebLink() {

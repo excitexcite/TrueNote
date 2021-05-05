@@ -71,7 +71,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     static class NoteViewHolder extends RecyclerView.ViewHolder {
 
         TextView textTitle;
-        TextView textSubtitle;
         TextView textDateTime;
         LinearLayout layoutNote;
         RoundedImageView imageNote;
@@ -79,7 +78,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTitle);
-            textSubtitle = itemView.findViewById(R.id.textSubtitle);
             textDateTime = itemView.findViewById(R.id.textDateTime);
             imageNote = itemView.findViewById(R.id.imageNote);
             layoutNote = itemView.findViewById(R.id.layoutNote);
@@ -87,12 +85,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         void setNote(Note note) {
             textTitle.setText(note.getTitle());
-            if (note.getSubtitle().trim().isEmpty()) {
-                textSubtitle.setVisibility(View.GONE);
-            } else {
-                textSubtitle.setText(note.getSubtitle());
-            }
-            textDateTime.setText(note.getDateTime());
+            textDateTime.setText(note.getLastChangeDateTime());
 
             // если картинка не была удалена
             if(note.getImagePath() != null) {
@@ -116,7 +109,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
                     ArrayList<Note> temp = new ArrayList<>();
                     for (Note note :mNotesSource) {
                         if (note.getTitle().toLowerCase().contains(searchKeyword.toLowerCase())
-                        || note.getSubtitle().toLowerCase().contains(searchKeyword.toLowerCase())
                         || note.getNoteText().toLowerCase().contains(searchKeyword.toLowerCase())) {
                             temp.add(note);
                         }

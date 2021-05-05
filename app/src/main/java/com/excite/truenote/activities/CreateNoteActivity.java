@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,7 +39,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
@@ -50,7 +48,6 @@ public class CreateNoteActivity extends AppCompatActivity {
     public static final String  NOTE_DELETE_KEY = "isNoteDeleted";
 
     private EditText inputNoteTitle;
-    private EditText inputNoteSubtitle;
     private EditText inputNoteText;
     private TextView textDateTime;
     private ImageView imageNote;
@@ -78,7 +75,6 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         inputNoteTitle = findViewById(R.id.inputNoteTitle);
-        inputNoteSubtitle = findViewById(R.id.inputNoteSubtitle);
         inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         imageNote = findViewById(R.id.imageNote);
@@ -131,9 +127,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private void setViewOrUpdate() {
         inputNoteTitle.setText((alreadyAvailableNote.getTitle()));
-        inputNoteSubtitle.setText((alreadyAvailableNote.getSubtitle()));
         inputNoteText.setText((alreadyAvailableNote.getNoteText()));
-        textDateTime.setText((alreadyAvailableNote.getDateTime()));
+        textDateTime.setText((alreadyAvailableNote.getLastChangeDateTime()));
 
         if (alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()) {
             imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
@@ -214,17 +209,15 @@ public class CreateNoteActivity extends AppCompatActivity {
             Toast.makeText(this, "Note title can't be empty!", Toast.LENGTH_SHORT)
                     .show();
             return;
-        } else if (inputNoteSubtitle.getText().toString().trim().isEmpty()
-                && inputNoteText.getText().toString().trim().isEmpty()) {
+        } else if (inputNoteText.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Note can't be empty!", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
         final Note note = new Note();
         note.setTitle(inputNoteTitle.getText().toString().trim());
-        note.setSubtitle(inputNoteSubtitle.getText().toString().trim());
         note.setNoteText(inputNoteText.getText().toString().trim());
-        note.setDateTime(textDateTime.getText().toString());
+        note.setLastChangeDateTime(textDateTime.getText().toString());
         note.setImagePath(selectedImagePath);
 
         // указали ссылку для сущности БД
@@ -258,21 +251,6 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         new SaveNoteTask().execute();
-    }
-
-    private void initMiscellaneous() {
-        final LinearLayout layoutMiscellaneous = findViewById(R.id.layoutMiscellaneous);
-        final BottomSheetBehavior bottomSgeetBehaviour = BottomSheetBehavior.from(layoutMiscellaneous);
-        layoutMiscellaneous.findViewById(R.id.textMiscellaneous).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (bottomSgeetBehaviour.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSgeetBehaviour.setState(BottomSheetBehavior.STATE_EXPANDED);
-                } else {
-                    bottomSgeetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }
-            }
-        });
     }
 
     @Override
