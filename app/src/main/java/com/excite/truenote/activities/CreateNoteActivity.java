@@ -59,6 +59,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private AlertDialog dialogAddURL;
 
+    private Note alreadyAvailableNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,30 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         selectedImagePath = "";
 
+        if(getIntent().getBooleanExtra(MainActivity.VIEW_UPDATE_KEY, false)) {
+            alreadyAvailableNote = (Note)getIntent().getSerializableExtra(MainActivity.NOTE_KEY);
+            setViewOrUpdate();
+        }
+
         //initMiscellaneous();
+    }
+
+    private void setViewOrUpdate() {
+        inputNoteTitle.setText((alreadyAvailableNote.getTitle()));
+        inputNoteSubtitle.setText((alreadyAvailableNote.getSubtitle()));
+        inputNoteText.setText((alreadyAvailableNote.getNoteText()));
+        textDateTime.setText((alreadyAvailableNote.getDateTime()));
+
+        if (alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()) {
+            imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
+            imageNote.setVisibility(View.VISIBLE);
+            selectedImagePath = alreadyAvailableNote.getImagePath();
+        }
+
+        if (alreadyAvailableNote.getWebLink() != null && !alreadyAvailableNote.getWebLink().trim().isEmpty()) {
+            textWebURL.setText(alreadyAvailableNote.getWebLink());
+            layoutWebURL.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -178,6 +203,12 @@ public class CreateNoteActivity extends AppCompatActivity {
         // указали ссылку для сущности БД
         if (layoutWebURL.getVisibility() == View.VISIBLE) {
             note.setWebLink(textWebURL.getText().toString());
+        }
+
+        // устанавливаем id новой (скопированной) замети; в этом случае работает стратегия замены заметки в NoteDao
+        // если эта заметка уже есть в бд, то она будет заменена при любых изменениях
+        if (alreadyAvailableNote != null) {
+            note.setId(alreadyAvailableNote.getId());
         }
 
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {

@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.excite.truenote.R;
 import com.excite.truenote.entities.Note;
+import com.excite.truenote.listeners.NotesListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -18,8 +20,10 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
     private List<Note> mNotes;
+    private NotesListener mNotesListener;
 
-    public NotesAdapter(List<Note> notes) {
+    public NotesAdapter(List<Note> notes, NotesListener notesListener) {
+        mNotesListener = notesListener;
         mNotes = notes;
     }
 
@@ -38,6 +42,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         holder.setNote(mNotes.get(position));
+        holder.layoutNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNotesListener.onNoteClicked(mNotes.get(position), position);
+            }
+        });
     }
 
     @Override
@@ -55,6 +65,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         TextView textTitle;
         TextView textSubtitle;
         TextView textDateTime;
+        LinearLayout layoutNote;
         RoundedImageView imageNote;
 
         NoteViewHolder(@NonNull View itemView) {
@@ -63,6 +74,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             textSubtitle = itemView.findViewById(R.id.textSubtitle);
             textDateTime = itemView.findViewById(R.id.textDateTime);
             imageNote = itemView.findViewById(R.id.imageNote);
+            layoutNote = itemView.findViewById(R.id.layoutNote);
         }
 
         void setNote(Note note) {
