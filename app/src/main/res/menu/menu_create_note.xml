@@ -7,5 +7,9 @@
         android:icon="@drawable/ic_image"
         android:title="Add image"
         app:showAsAction="ifRoom" />
-    <item android:title="Item" />
+    <item
+        android:id="@+id/addWebLink"
+        android:icon="@drawable/ic_web_link"
+        android:title="Add Url"
+        app:showAsAction="ifRoom" />
 </menu>
