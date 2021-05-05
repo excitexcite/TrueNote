@@ -34,11 +34,11 @@ public class Note implements Serializable {
         return title + " : " + lastChangeDateTime;
     }
 
-    public int getId() {
+    public int getNoteId() {
         return noteId;
     }
 
-    public void setId(int id) {
+    public void setNoteId(int id) {
         this.noteId = id;
     }
 

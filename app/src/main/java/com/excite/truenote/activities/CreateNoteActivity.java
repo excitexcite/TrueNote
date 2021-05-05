@@ -33,7 +33,6 @@ import android.widget.Toast;
 import com.excite.truenote.R;
 import com.excite.truenote.database.NotesDatabase;
 import com.excite.truenote.entities.Note;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -66,13 +65,13 @@ public class CreateNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
-        ImageView imageBack = findViewById(R.id.imageBack);
+/*        ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
+        });*/
 
         inputNoteTitle = findViewById(R.id.inputNoteTitle);
         inputNoteText = findViewById(R.id.inputNote);
@@ -89,13 +88,13 @@ public class CreateNoteActivity extends AppCompatActivity {
                         format(new Date())
         );
 
-        ImageView imageSave = findViewById(R.id.imageSave);
+/*        ImageView imageSave = findViewById(R.id.imageSave);
         imageSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNote();
             }
-        });
+        });*/
 
         selectedImagePath = "";
 
@@ -228,7 +227,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         // устанавливаем id новой (скопированной) замети; в этом случае работает стратегия замены заметки в NoteDao
         // если эта заметка уже есть в бд, то она будет заменена при любых изменениях
         if (alreadyAvailableNote != null) {
-            note.setId(alreadyAvailableNote.getId());
+            note.setNoteId(alreadyAvailableNote.getNoteId());
         }
 
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {

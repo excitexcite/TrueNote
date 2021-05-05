@@ -15,4 +15,24 @@ public class Category implements Serializable {
     @ColumnInfo(name = "title")
     private String title;
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return categoryId + " - " + title;
+    }
 }
