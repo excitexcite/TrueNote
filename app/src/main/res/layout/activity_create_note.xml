@@ -51,6 +51,7 @@
                 android:textSize="@dimen/_10ssp"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +70,6 @@
                     android:adjustViewBounds="true"
                     android:visibility="gone"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/background_delete"
                     app:layout_constraintTop_toTopOf="@id/imageConstrainLayout"/>
 
                 <ImageView

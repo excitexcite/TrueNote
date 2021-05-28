@@ -20,18 +20,18 @@
     <item
         android:id="@+id/deleteNote"
         android:icon="@drawable/ic_delete"
-        android:title="Delete note"
+        android:title="@string/delete_note_menu_item"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/addCategory"
-        android:title="Add category"
+        android:title="@string/add_category_note_menu_item"
         app:showAsAction="never" />
     <item
         android:id="@+id/referToCategory"
-        android:title="Refer to category"
+        android:title="@string/refer_category_note_menu_item"
         app:showAsAction="never" />
     <item
         android:id="@+id/settings"
-        android:title="Settings"
+        android:title="@string/settings_note_menu_item"
         app:showAsAction="never" />
 </menu>

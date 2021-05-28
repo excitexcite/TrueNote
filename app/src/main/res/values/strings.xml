@@ -15,4 +15,30 @@
     <string name="are_you_sure_you_want_to_delete_note">Are you sure you want to delete note?</string>
     <string name="add_category">Add category</string>
     <string name="write_category_name_here">Write category name here</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="delete_note_menu_item">Delete note</string>
+    <string name="add_category_note_menu_item">Refer to category</string>
+    <string name="refer_category_note_menu_item">Refer to category</string>
+    <string name="settings_note_menu_item">Settings</string>
+    <string name="permission_denied">Permission denied!</string>
+    <string name="empty_note_toast">Note title can\'t be empty!</string>
+    <string name="empty_URL_toast">Enter URL</string>
+    <string name="error_URL_toast">Enter valid URL</string>
+    <string name="select_sort_option">Select sort option</string>
+    <string name="sort_option_selected">You selected</string>
 </resources>

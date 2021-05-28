@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.excite.truenote.dao.CategoryDao;
 import com.excite.truenote.dao.NoteDao;
 import com.excite.truenote.entities.Category;
 import com.excite.truenote.entities.Note;
@@ -29,5 +30,7 @@ public abstract class NotesDatabase extends RoomDatabase {
     }
 
     public abstract NoteDao noteDao();
+
+    public abstract CategoryDao categoryDao();
 
 }

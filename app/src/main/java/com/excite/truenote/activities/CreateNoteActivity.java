@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,11 +34,13 @@ import android.widget.Toast;
 
 import com.excite.truenote.R;
 import com.excite.truenote.database.NotesDatabase;
+import com.excite.truenote.entities.Category;
 import com.excite.truenote.entities.Note;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CreateNoteActivity extends AppCompatActivity {
@@ -56,9 +60,12 @@ public class CreateNoteActivity extends AppCompatActivity {
     private String selectedImagePath;
 
     private AlertDialog dialogAddURL;
+    private AlertDialog dialogAddCategory;
+    private AlertDialog dialogSelectCategory;
     private AlertDialog dialogDeleteNote;
 
     private Note alreadyAvailableNote;
+    private List<Category> mCategoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +131,12 @@ public class CreateNoteActivity extends AppCompatActivity {
         //initMiscellaneous();
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        finish();
+    }
+
     private void setViewOrUpdate() {
         inputNoteTitle.setText((alreadyAvailableNote.getTitle()));
         inputNoteText.setText((alreadyAvailableNote.getNoteText()));
@@ -178,6 +191,22 @@ public class CreateNoteActivity extends AppCompatActivity {
                 showDeleteDialog();
                 break;
             }
+            case R.id.addCategory: {
+                showAddCategoryDialog();
+                break;
+            }
+            case R.id.saveNote: {
+                saveNote();
+                break;
+            }
+            case R.id.home: {
+                onBackPressed();
+                break;
+            }
+            case R.id.referToCategory: {
+                showCategorySelectionDialog();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,7 +219,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 selectImage();
             } else { // иначе тост с ошибкой
-                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT)
+                Toast.makeText(this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT)
                         .show();
             }
         }
@@ -205,11 +234,11 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private void saveNote() {
         if (inputNoteTitle.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Note title can't be empty!", Toast.LENGTH_SHORT)
+            Toast.makeText(this, getResources().getString(R.string.empty_note_toast), Toast.LENGTH_SHORT)
                     .show();
             return;
         } else if (inputNoteText.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Note can't be empty!", Toast.LENGTH_SHORT)
+            Toast.makeText(this, getResources().getString(R.string.empty_note_toast), Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -315,10 +344,10 @@ public class CreateNoteActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (inputURL.getText().toString().trim().isEmpty()) {
-                        Toast.makeText(CreateNoteActivity.this, "Enter URL", Toast.LENGTH_SHORT)
+                        Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.empty_URL_toast), Toast.LENGTH_SHORT)
                                 .show();
                     } else if (!Patterns.WEB_URL.matcher(inputURL.getText().toString()).matches()) {
-                        Toast.makeText(CreateNoteActivity.this, "Enter valid URL", Toast.LENGTH_SHORT)
+                        Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.error_URL_toast), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
                         textWebURL.setText(inputURL.getText().toString());
@@ -389,6 +418,108 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         dialogDeleteNote.show();
+    }
+
+    private void showAddCategoryDialog() {
+        if (dialogAddCategory == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_category,
+                    (ViewGroup) findViewById(R.id.layoutAddCategoryContainer)
+            );
+            builder.setView(view);
+
+            dialogAddCategory = builder.create();
+            if (dialogAddCategory.getWindow() != null) {
+                dialogAddCategory.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+
+
+
+            final EditText inputCategory = view.findViewById(R.id.inputCategory);
+            inputCategory.requestFocus();
+
+            view.findViewById(R.id.textAdd).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    class AddCategoryTask extends AsyncTask<Void, Void, Void> {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            final Category category = new Category();
+                            category.setTitle(inputCategory.getText().toString().trim());
+                            NotesDatabase.getDatabase(getApplicationContext()).categoryDao()
+                                    .insertCategory(category);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void unused) {
+                            super.onPostExecute(unused);
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+
+                    new AddCategoryTask().execute();
+                }
+            });
+
+            view.findViewById(R.id.textCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogAddCategory.dismiss();
+                }
+            });
+        }
+
+        dialogAddCategory.show();
+    }
+
+    private void showCategorySelectionDialog() {
+
+        getCategories();
+
+        Log.d("NOTES", mCategoryList.toString());
+
+        if (dialogSelectCategory == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select category for note:");
+            String[] categoryTitles = new String[mCategoryList.size()];
+            for (int i = 0; i < mCategoryList.size(); i++) {
+                categoryTitles[i] = mCategoryList.get(i).getTitle();
+            }
+            builder.setItems(categoryTitles, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(CreateNoteActivity.this, "Selected + " + mCategoryList.get(which), Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+
+        }
+    }
+
+    private void getCategories() {
+        class getAllCategoriesTask extends AsyncTask<Void, Void, List<Category>> {
+            @Override
+            protected List<Category> doInBackground(Void... voids) {
+                return NotesDatabase
+                        .getDatabase(getApplicationContext())
+                        .categoryDao()
+                        .getAllCategories();
+            }
+
+            @Override
+            protected void onPostExecute(List<Category> categories) {
+                super.onPostExecute(categories);
+                mCategoryList.addAll(categories);
+
+            }
+        }
+
+        new getAllCategoriesTask().execute();
     }
 
 }

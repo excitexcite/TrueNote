@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Заметки</string>
+    <string name="my_notes">Заметки</string>
+    <string name="search_note">Искать заметку</string>
+    <string name="note_title">Заголовок заметки</string>
+    <string name="note_subtitle">Подзаголовок заметки</string>
+    <string name="type_text_here">Напишите текст…</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="pick_color">Выберите цвет</string>
+    <string name="add_url">Добавить ссылку (URL)</string>
+    <string name="enter_url">Ввести ссылку (URL)</string>
+    <string name="add">Добавить</string>
+    <string name="cancel_dialog" tools:ignore="ButtonCase">Отменить</string>
+    <string name="delete_note">Удалить заметку</string>
+    <string name="are_you_sure_you_want_to_delete_note">Вы уверены, что хотите удалить заметку</string>
+    <string name="add_category">Добавить категорию</string>
+    <string name="write_category_name_here">Напишите назвение категории заметок…</string>
+    <string name="title_activity_settings">Настройки</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="delete_note_menu_item">Удалить заметку</string>
+    <string name="add_category_note_menu_item">Создать категорию заметок</string>
+    <string name="refer_category_note_menu_item">Добавить в категорию</string>
+    <string name="settings_note_menu_item">Настройки</string>
+    <string name="permission_denied">Отказано в доступе</string>
+    <string name="empty_note_toast">Заголовок заметки не может быть пуст</string>
+    <string name="error_URL_toast">Укажите правильную ссылку</string>
+    <string name="select_sort_option">Выберите критерий сортировки</string>
+    <string name="sort_option_selected">"Выбрано: "</string>
+    <string name="empty_URL_toast">Введите ссылку</string>
+</resources>

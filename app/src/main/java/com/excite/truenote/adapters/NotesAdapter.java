@@ -27,7 +27,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private List<Note> mNotes;
     private NotesListener mNotesListener;
     private Timer mTimer;
-    private  List<Note> mNotesSource;
+    private List<Note> mNotesSource;
 
     public NotesAdapter(List<Note> notes, NotesListener notesListener) {
         mNotesListener = notesListener;

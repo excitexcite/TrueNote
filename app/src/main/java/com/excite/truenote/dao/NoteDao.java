@@ -18,6 +18,14 @@ public interface NoteDao {
     @Query("SELECT * FROM notes ORDER BY noteId DESC")
     List<Note> getAllNotes();
 
+    @Transaction
+    @Query("SELECT * FROM notes ORDER BY title, note_text ASC")
+    List<Note> getNoteByAlphabetInc();
+
+    @Transaction
+    @Query("SELECT * FROM notes ORDER BY title, note_text DESC")
+    List<Note> getNoteByAlphabetDesc();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNote(Note note);
 
